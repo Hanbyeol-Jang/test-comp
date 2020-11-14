@@ -3,6 +3,8 @@ package com.mimi.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mimi.Dao.ReviewDao;
@@ -22,5 +24,12 @@ public class ReviewService {
 		return reviewDao.findAll();
 	}
 	
+	public Page<Review> findByResId(int id, Pageable pageable){
+		return reviewDao.findByResId(id, pageable);
+	}
+	
+	public List<Review> findByUserId(String id){
+		return reviewDao.findByUserIdOrderByIdDesc(id);
+	}
 	
 }

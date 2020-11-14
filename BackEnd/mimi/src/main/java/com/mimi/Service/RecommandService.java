@@ -6,29 +6,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mimi.Dao.RecommandDao;
-import com.mimi.Dao.ReviewDao;
+import com.mimi.Dao.ReviewdataDao;
 import com.mimi.Dto.Recommand;
 import com.mimi.Dto.RecommandRequest.Survey;
-import com.mimi.Dto.Review;
+import com.mimi.Dto.Reviewdata;
 
 @Service
 public class RecommandService {
 
 	@Autowired
-	private ReviewDao reviewDao;
+	private ReviewdataDao reviewdataDao;
 
 	@Autowired
 	private RecommandDao recommandDao;
 
 	public void survey(Survey[] list) {
-		int index = (int) reviewDao.count();
+		int index = (int) reviewdataDao.count();
 		for (int i = 0; i < list.length; i++) {
-			Review temp = new Review();
-			temp.setId(index+1+i);
+			Reviewdata temp = new Reviewdata();
+			temp.setId(String.valueOf(index+1+i));
 			temp.setRating(list[i].getRating());
 			temp.setResId(list[i].getRid());
-			temp.setUserName("" + list[i].getUid());
-			reviewDao.save(temp);
+			temp.setUserId("" + list[i].getUid());
+			reviewdataDao.save(temp);
 		}
 	}
 

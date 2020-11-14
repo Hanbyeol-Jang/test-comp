@@ -42,15 +42,12 @@ public class StoreController {
 	}
 	@GetMapping(value = "/{id}")
 	@ApiOperation(value = "id로 가게 가져오기")
-	public ResponseEntity<HashMap<String, Object>> getStore(@PathVariable("id") String id) {
+	public ResponseEntity<?> getStore(@PathVariable("id") String id) {
 		System.out.println("getStore Controller");
 		try {
-			HashMap<String, Object> map = new HashMap<>();
-
 			Store store = storeService.getStore(id);
-			map.put("Store", store);
 
-			return new ResponseEntity<HashMap<String, Object>>(map, HttpStatus.OK);
+			return new ResponseEntity<Store>(store, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
@@ -62,10 +59,11 @@ public class StoreController {
 		List<Store> list = storeService.findAll();
 
 		List<Store> ret = new LinkedList<Store>();
-		for (int i = 0; i < 5; i++) {
-			int ran = (int) (Math.random() * 9999999 % list.size());
-			ret.add(list.get(ran));
-		}
+		ret.add(list.get(0));
+		ret.add(list.get(8));
+		ret.add(list.get(13));
+		ret.add(list.get(21));
+		ret.add(list.get(23));
 		return new ResponseEntity<List<Store>>(ret, HttpStatus.OK);
 
 	}

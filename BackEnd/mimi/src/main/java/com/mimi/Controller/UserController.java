@@ -2,6 +2,7 @@ package com.mimi.Controller;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mimi.Dto.Review;
 import com.mimi.Dto.User;
+import com.mimi.Service.ReviewService;
 import com.mimi.Service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +30,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ReviewService reviewService;
 
 	@PostMapping(value = "/login")
 	@ApiOperation(value = "로그인 (DB에 없으면 회원가입)")
@@ -95,15 +100,12 @@ public class UserController {
 
 	@GetMapping(value = "/user/{id}")
 	@ApiOperation(value = "id로 회원 정보 가져오기")
-	public ResponseEntity<HashMap<String, Object>> getUserinfo(@PathVariable("id") String id) {
+	public ResponseEntity<?> getUserinfo(@PathVariable("id") String id) {
 		System.out.println("getUserinfo Controller");
 		try {
-			HashMap<String, Object> map = new HashMap<>();
+			User userinfo = userService.getUserinfo(id).get();
 
-			Optional<User> userinfo = userService.getUserinfo(id);
-			map.put("User", userinfo.get());
-
-			return new ResponseEntity<HashMap<String, Object>>(map, HttpStatus.OK);
+			return new ResponseEntity<User>(userinfo, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
@@ -139,6 +141,19 @@ public class UserController {
 			map.put("User", userinfo.get());
 
 			return new ResponseEntity<HashMap<String, Object>>(map, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping(value = "/review/{id}")
+	@ApiOperation(value = "id로 리뷰정보 가져오기")
+	public ResponseEntity<?> getUserReviews(@PathVariable("id") String id) {
+		System.out.println("getUserinfo Controller");
+		try {
+			List<Review> list = reviewService.findByUserId(id);
+
+			return new ResponseEntity<List<Review>>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}

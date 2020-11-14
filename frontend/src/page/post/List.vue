@@ -289,21 +289,24 @@ export default {
   min-width: 100%;
   width: 100%;
   right: 0;
-  height: 100vh !important;
-  line-height: 100vh;
-  background-image: url("../../assets/img/main.jpg");
-  background-size: cover;
+  height: 50vh !important;
+  line-height: 50vh;
+  background-image: url("../../assets/img/mimi.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
   z-index: 6;
+
 }
 #maintext {
   position: relative;
-  top: 100vh;
+  top: 50vh;
 }
 .main-text {
   padding-top: 40vh;
   background-color: #000000;
   background-color: rgba(0, 0, 0, 0.8);
-  height: 100vh;
+  height: 50vh;
 }
 input[type="radio"] {
   position: absolute;
